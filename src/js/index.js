@@ -13,7 +13,7 @@ async function connect() {
   if (isConnected) {
     const { data: details } = await wallet.details();
 
-    console.log(details);
+    console.log("details"+details.balance);
     /*
       accountId: "qwerty.testnet"
       allowance: "0.25"
@@ -25,7 +25,7 @@ async function connect() {
   document.getElementById("login-button").addEventListener("click", (e) => {
     wallet.connect({
       requestSignIn: true,
-      contractAddress: "market-v2-beta.mintspace2.testnet",
+      contractAddress: "rigormarket.mintspace2.testnet",
     });
     console.log(isConnected);
   });
@@ -36,23 +36,30 @@ async function connect() {
     console.log(isConnected);
   });
 
-  document.getElementById("mint-button").addEventListener("click", (e) => {
+  document.getElementById("mint-button").addEventListener("click", async (e) => {
     console.log("mint");
 
+    console.log(isConnected);
 
     // I'm not sure about this values are correct or not............;
     
-    const tokenIds = ["166"];
-    const prices = ["22"];
-    const marketAddress = "shopifyteststore.mintspace2.testnet";
+    const tokenIds = ["0:rigormarket.mintspace2.testnet"];
+    const prices = ["5000000000000000000000000"];
+    const marketAddress = "market.mintspace2.testnet";
 
-    wallet.batchMakeOffer({
+    try {
+    let res = await wallet.batchMakeOffer(
       tokenIds,
       prices,
-      marketAddress,
+      {
+      marketAddress
     });
+  }catch(err) {
+    console.log("err"+err)
 
-    console.log(isConnected);
+  }
+
+
   });
 }
 
